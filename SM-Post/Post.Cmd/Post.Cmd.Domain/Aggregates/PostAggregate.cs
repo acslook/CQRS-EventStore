@@ -13,6 +13,10 @@ namespace Post.Cmd.Domain.Aggregates
             get => _active; set => _active = value;
         }
 
+          public PostAggregate()
+        {
+        }
+
         public PostAggregate(Guid id, string author, string message)
         {
             RaiseEvent(new PostCreatedEvent
