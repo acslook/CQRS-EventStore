@@ -56,6 +56,7 @@ namespace Post.Query.Infrastructure.Handlers
                 CommentId = @event.CommentId,
                 CommentDate = @event.CommentDate,
                 Comment = @event.Comment,
+                Username = @event.Username,
                 Edited = false
             };
 

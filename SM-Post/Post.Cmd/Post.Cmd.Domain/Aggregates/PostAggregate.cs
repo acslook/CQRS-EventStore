@@ -61,12 +61,12 @@ namespace Post.Cmd.Domain.Aggregates
 
         public void LikePost()
         {
-             if (!_active)
+            if (!_active)
             {
                 throw new InvalidOperationException("You cannot like an inactive post!");
             }
 
-            RaiseEvent(new MessageUpdatedEvent
+            RaiseEvent(new PostLikedEvent
             {
                 Id = _id
             });
