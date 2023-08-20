@@ -1,39 +1,33 @@
-using CQRS.Core.Commands;
 using CQRS.Core.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Post.Cmd.Api.Commands;
-using Post.Cmd.Api.DTOs;
 using Post.Common.DTOs;
 
 namespace Post.Cmd.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class NewPostController : ControllerBase
+    public class RestoreReadDbController : ControllerBase
     {
-        private readonly ILogger<NewPostController> _logger;
+        private readonly ILogger<RestoreReadDbController> _logger;
         private readonly ICommandDispatcher _commandDispatcher;
 
-        public NewPostController(ILogger<NewPostController> logger, ICommandDispatcher commandDispatcher)
+        public RestoreReadDbController(ILogger<RestoreReadDbController> logger, ICommandDispatcher commandDispatcher)
         {
             _logger = logger;
             _commandDispatcher = commandDispatcher;
         }
 
         [HttpPost]
-        public async Task<ActionResult> NewPostAsync(NewPostCommand command)
+        public async Task<ActionResult> RestoreReadDbAsync()
         {
-            var id = Guid.NewGuid();
             try
             {
-                command.Id = id;
-    
-                await _commandDispatcher.SendAsync(command);
-    
-                return StatusCode(StatusCodes.Status201Created, new NewPostResponse
+                await _commandDispatcher.SendAsync(new RestoreReadDbCommand());
+
+                return StatusCode(StatusCodes.Status201Created, new BaseResponse
                 {
-                    Id = id,
-                    Message = "New post creation request completed successfully!"
+                    Message = "Read dabase restore request completed successfully!"
                 });
             }
             catch (InvalidOperationException ex)
@@ -46,12 +40,11 @@ namespace Post.Cmd.Api.Controllers
             }
             catch (Exception ex)
             {
-                const string SAFE_ERROR_MESSAGE = "Error while processing request to create a new post!";
+                const string SAFE_ERROR_MESSAGE = "Error while processing request to restore read database!";
                 _logger.LogError(ex, SAFE_ERROR_MESSAGE);
 
-                return StatusCode(StatusCodes.Status500InternalServerError, new NewPostResponse
+                return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
                 {
-                    Id = id,
                     Message = SAFE_ERROR_MESSAGE
                 });
             }

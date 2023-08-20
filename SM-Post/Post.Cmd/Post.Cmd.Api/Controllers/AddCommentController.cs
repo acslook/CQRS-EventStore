@@ -2,6 +2,7 @@ using CQRS.Core.Commands;
 using CQRS.Core.Exceptions;
 using CQRS.Core.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Post.Cmd.Api.Commands;
 using Post.Common.DTOs;
 
 namespace Post.Cmd.Api.Controllers
